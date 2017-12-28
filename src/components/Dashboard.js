@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class HomePage extends React.Component {
+class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
@@ -10,10 +10,11 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <h1>React Slingshot - Home</h1>
+        <h2>Beautiful Dashboard with Amazing Visuals to be built</h2>
       </div>
     );
   }
 }
 
-export default HomePage;
+
+export default Dashboard;
