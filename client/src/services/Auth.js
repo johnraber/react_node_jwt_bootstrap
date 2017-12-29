@@ -30,7 +30,7 @@ class Auth {
       body: JSON.stringify({ username, password })
     };
 
-    return fetch('/api/auth', requestOptions)
+    return fetch('/auth/authenticate', requestOptions)
       .then(response => {
         if (!response.ok) {
           this.authenticated = false;

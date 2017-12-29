@@ -13,6 +13,7 @@
  */
 exports.find = function( username, password) {
 
+  return Promise.resolve({username, password});
   // TODO remove hardcoded user store after database is setup ... always salt the passwords
 
 	// return User.findOne({
