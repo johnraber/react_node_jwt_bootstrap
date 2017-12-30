@@ -1,5 +1,6 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+// import { connect } from 'react-redux';
 
 import Auth from '../services/Auth';
 
@@ -11,7 +12,8 @@ class Login extends React.Component {
     this.state = {
       redirectToReferrer: false,
       username: '',
-      password: ''
+      password: '',
+      submitted: false
     };
 
     this.login = this.login.bind(this);
@@ -24,11 +26,20 @@ class Login extends React.Component {
   }
 
   login = () => {
-    Auth.authenticate(this.state.username, this.state.password, () => {
-      this.setState(() => ({
-        redirectToReferrer: true
-      }));
-    });
+    this.setState({ submitted: true });
+    const { username, password } = this.state;
+//    const { dispatch } = this.props;
+
+    if (username && password) {
+      // if (username && password) {
+      //   dispatch(userActions.login(username, password));
+      // }
+      Auth.authenticate(username, password, () => {
+        this.setState(() => ({
+          redirectToReferrer: true
+        }));
+      });
+    }
   }
 
 
@@ -38,6 +49,8 @@ class Login extends React.Component {
     const { redirectToReferrer } = this.state;
     const { from } = this.props.location.state || { from: { pathname: '/' } };
 
+    const { username, password, submitted } = this.state;
+
     if(redirectToReferrer === true) {
       return (
         <Redirect to={ from } />
@@ -46,15 +59,34 @@ class Login extends React.Component {
     else {
       return (
         <div>
+          <label htmlFor="username">Username</label>
           <input type="text" name="username" value={this.state.username}
                  onChange={this.handleChange} placeholder="Enter your username"></input>
+          {submitted && !username &&
+            <div className="help-block">Username is required</div>
+          }
+          <label htmlFor="password">Password</label>
           <input type="password" name="password" value={this.state.password}
                  onChange={this.handleChange} placeholder="Enter your password"></input>
+          {submitted && !password &&
+            <div className="help-block">Password is required</div>
+          }
           <button onClick={this.login}>Login</button>
+          <Link to="/register" className="btn btn-link">Register</Link>
         </div>
       );
     }
   }
 }
+
+// function mapStateToProps(state) {
+//   const { loggingIn } = state.authentication;
+//   return {
+//     loggingIn
+//   };
+// }
+//
+// const connectedLoginPage = connect(mapStateToProps)(LoginPage);
+// export { connectedLoginPage as LoginPage };
 
 export default Login;

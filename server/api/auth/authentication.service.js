@@ -8,9 +8,7 @@
 // var system_models = require('../../systemModels/system_models_factory').system_models;
 // var User = system_models.user;
 
-/**
- * Authenticate a user.
- */
+
 exports.find = function( username, password) {
 
   return Promise.resolve({username, password});
