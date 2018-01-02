@@ -1,8 +1,9 @@
 import React from 'react';
-import { Redirect, Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import Auth from '../services/Auth';
+
+import { userActions } from '../actions/user.actions';
 
 class Login extends React.Component {
 
@@ -10,7 +11,7 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      redirectToReferrer: false,
+ //     redirectToReferrer: false,
       username: '',
       password: '',
       submitted: false
@@ -25,48 +26,33 @@ class Login extends React.Component {
     this.setState({ [name]: value });
   }
 
-  login = () => {
+  login() {
+
     this.setState({ submitted: true });
     const { username, password } = this.state;
-//    const { dispatch } = this.props;
+    const { dispatch } = this.props;
 
     if (username && password) {
-      // if (username && password) {
-      //   dispatch(userActions.login(username, password));
-      // }
-      Auth.authenticate(username, password, () => {
-        this.setState(() => ({
-          redirectToReferrer: true
-        }));
-      });
+
+      dispatch(userActions.login(username, password));
     }
   }
 
 
   render() {
 
-    // gotta love destructing assignment !
-    const { redirectToReferrer } = this.state;
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
-
     const { username, password, submitted } = this.state;
 
-    if(redirectToReferrer === true) {
-      return (
-        <Redirect to={ from } />
-      );
-    }
-    else {
       return (
         <div>
           <label htmlFor="username">Username</label>
-          <input type="text" name="username" value={this.state.username}
+          <input type="text" name="username" value={username}
                  onChange={this.handleChange} placeholder="Enter your username"></input>
           {submitted && !username &&
             <div className="help-block">Username is required</div>
           }
           <label htmlFor="password">Password</label>
-          <input type="password" name="password" value={this.state.password}
+          <input type="password" name="password" value={password}
                  onChange={this.handleChange} placeholder="Enter your password"></input>
           {submitted && !password &&
             <div className="help-block">Password is required</div>
@@ -75,18 +61,17 @@ class Login extends React.Component {
           <Link to="/register" className="btn btn-link">Register</Link>
         </div>
       );
-    }
   }
 }
 
-// function mapStateToProps(state) {
-//   const { loggingIn } = state.authentication;
-//   return {
-//     loggingIn
-//   };
-// }
-//
-// const connectedLoginPage = connect(mapStateToProps)(LoginPage);
-// export { connectedLoginPage as LoginPage };
+function mapStateToProps(state) {
+  const { loggingIn } = (state) ? state.authentication : false;
+  return {
+    loggingIn
+  };
+}
 
-export default Login;
+const connectedLogin = connect(mapStateToProps)(Login);
+export { connectedLogin as Login };
+// export default Login;
+

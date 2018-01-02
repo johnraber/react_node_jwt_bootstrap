@@ -17,7 +17,6 @@ class Auth {
   }
 
   static isAuthenticated() {
-    // return false;
     return (this.authenticated === true);
   }
 
