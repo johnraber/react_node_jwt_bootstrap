@@ -16,6 +16,7 @@ var jwt = require('jsonwebtoken');
  */
 exports.authenticate = function(req, res) {
 
+  console.log('authenticate req.body.username: ', req.body.username, ' req.body.password: ', req.body.password);
 	// Ensure we have the necessary parameters
 	if (req.body.username == undefined || req.body.password == undefined) {
 		return res.status(401).send({

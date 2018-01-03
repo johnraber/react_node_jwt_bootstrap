@@ -1,7 +1,8 @@
 var path = require('path');
-// var _ = require('lodash');
 
-// var specific_env_config = require('./' + process.env.NODE_ENV + '.js');
+// Set default node environment to development
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+var specific_env_config = require('./' + process.env.NODE_ENV + '.js');
 
 // All configurations will extend these options
 // ============================================
@@ -50,11 +51,12 @@ var all = {
   track_user: false
 };
 
-module.exports = all;
+
+// module.exports = all;
 
 // Export the config object based on the NODE_ENV
 // ==============================================
 // TODO jraber - test using vanilla object.assign()
-// module.exports = _.merge(
-//   all,
-//   specific_env_config || {});
+module.exports = Object.assign(
+  all,
+  specific_env_config || {});

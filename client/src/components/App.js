@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 import HomePage from './HomePage';
 import { Login } from './Login';
-import { Register } from '../containers/Register';
+import { Register } from './Register';
 import { PrivateRoute } from './PrivateRoute';
 //import {alertActions} from "../actions";
 //import { history } from '../store/configureStore';
@@ -37,8 +37,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Route path="/" component={HomePage} />
-          <PrivateRoute exact path="/aa" component={HomePage} />
+          <PrivateRoute path="/" component={HomePage} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
       </div>
@@ -50,12 +49,12 @@ class App extends React.Component {
 //   children: PropTypes.element
 // };
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   const { alert } = state;
   return {
     alert
   };
-}
+};
 
 const connectedApp = connect(mapStateToProps)(App);
 export { connectedApp as App };

@@ -17,6 +17,8 @@ export default class Root extends Component {
   }
 }
 
+// You must specify the types so that the child and grandchildren of this Component are able to receive the
+// properties since getChildContext() from Provider needs to know which props are passed down
 Root.propTypes = {
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired

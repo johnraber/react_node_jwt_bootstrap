@@ -1,23 +1,25 @@
 // import { authHeader } from '../utils/auth-header';
 
+// TODO need to read this in from config overridden by environment
+const api_url = 'http://localhost:9000'
+
 export const userService = {
   login,
   logout,
   register
-  // getAll,
-  // getById,
-//  update
-//  delete: remove
 };
+
 
 function login(username, password) {
   const requestOptions = {
+//    mode: 'no-cors',
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, password })
   };
 
-  return fetch('/auth/authenticate', requestOptions)
+  return fetch( `${api_url}/auth/authenticate`, requestOptions)
+//  return fetch( '/auth/authenticate', requestOptions)
     .then(response => {
       if (!response.ok) {
         return Promise.reject(response.statusText);
@@ -36,29 +38,12 @@ function login(username, password) {
     });
 }
 
-function logout(cb) {
+// TODO make this return a promise since logout could easily need to call server or some of async op
+function logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('user');
-  cb();
 }
 
-// function getAll() {
-//   const requestOptions = {
-//     method: 'GET',
-//     headers: authHeader()
-//   };
-//
-//   return fetch('/users', requestOptions).then(handleResponse);
-// }
-//
-// function getById(id) {
-//   const requestOptions = {
-//     method: 'GET',
-//     headers: authHeader()
-//   };
-//
-//   return fetch('/users/' + _id, requestOptions).then(handleResponse);
-// }
 
 function register(user) {
   const requestOptions = {
@@ -69,25 +54,6 @@ function register(user) {
 
   return fetch('/auth/register', requestOptions).then(handleResponse);
 }
-
-// function update(user) {
-//   const requestOptions = {
-//     method: 'PUT',
-//     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-//     body: JSON.stringify(user)
-//   };
-//
-//   return fetch('/users/' + user.id, requestOptions).then(handleResponse);
-// }
-
-// function remove(id) {
-//   const requestOptions = {
-//     method: 'DELETE',
-//     headers: authHeader()
-//   };
-//
-//   return fetch('/users/' + id, requestOptions).then(handleResponse);;
-// }
 
 function handleResponse(response) {
   if (!response.ok) {
